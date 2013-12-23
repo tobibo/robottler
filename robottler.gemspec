@@ -6,6 +6,8 @@ Gem::Specification.new do |s|
   s.description = "Simple gem to generate ui tests for you app by looking at your manifest. Default tests will be espresso tests with spoon integration for taking screenshots."
   s.authors     = ["tosa"]
   s.email       = 'tosa.info@gmail.com'
-  s.files       = ["lib/robottler.rb"]
+  s.files       = Dir['Rakefile', '{bin,lib,test,templates}/**/*', 'README*', 'LICENSE*'] & `git ls-files -z`.split("\0")
   s.homepage    = 'https://github.com/tobibo/robottler'
+  s.executables = 'robottler'
+  s.add_dependency 'nokogiri'
 end
