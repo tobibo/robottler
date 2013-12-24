@@ -10,4 +10,5 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/tobibo/robottler'
   s.executables = 'robottler'
   s.add_dependency 'nokogiri'
+  s.add_dependency 'executable'
 end
