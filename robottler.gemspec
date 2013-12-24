@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'Robottler'
-  s.version     = '0.0.0'
+  s.version     = '0.0.1'
   s.licenses    = ['MIT']
   s.summary     = "Simple gem to generate ui tests for you app by looking at your manifest."
   s.description = "Simple gem to generate ui tests for you app by looking at your manifest. Default tests will be espresso tests with spoon integration for taking screenshots."
