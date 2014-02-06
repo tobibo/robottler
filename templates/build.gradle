@@ -12,6 +12,13 @@ apply plugin: 'spoon'
 
 ...
 
+android {
+	defaultConfig {
+		...
+  	testInstrumentationRunner "au.com.jtribe.testing.WakeUpInstrumentationTestRunner"
+  }
+}
+
 dependencies {
 		...
     instrumentTestCompile 'com.squareup.spoon:spoon-client:1.1.0'

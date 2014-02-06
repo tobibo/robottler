@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
 import <%= package %>.<%= activity %>;
-import <%= package %>.R;
+import <%= app_package %>.R;
 
 import com.squareup.spoon.Spoon;
 
@@ -25,7 +25,7 @@ public class <%= activity %>Test extends ActivityInstrumentationTestCase2<<%= ac
         super.tearDown();
     }
 
-    public void testView() {
+    public void test<%= activity %>View() {
         Spoon.screenshot(getActivity(), "initial_state");
     }
 }
