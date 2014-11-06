@@ -9,7 +9,7 @@ class Robottler
 
   class Renderer < OpenStruct
     def render(erb)
-     erb.result(binding)
+      erb.result(binding)
     end
   end
 
@@ -65,12 +65,15 @@ class Robottler
         filename = "#{root_dir}/templates/class.erb.java"
         erb = ERB.new(File.read(filename))
 
-        directory_name = "../instrumentTest"
-        unless File.exists?(directory_name)
-         puts "create directory #{directory_name}"
-         test_runner_package = "java/au/com/jtribe/testing"
-         FileUtils.mkdir_p("#{directory_name}/#{test_runner_package}")
-         FileUtils.cp("#{root_dir}/templates/class_test_runner.java", "#{directory_name}/#{test_runner_package}/WakeUpInstrumentationTestRunner.java")
+        directory_name = "../androidTest"
+        if File.exists?(directory_name)
+          puts "Skip creating instumentation testrunner, already exists"
+        else
+          puts "Creating instumentation testrunner"
+          puts "create directory #{directory_name}"
+          test_runner_package = "java/au/com/jtribe/testing"
+          FileUtils.mkdir_p("#{directory_name}/#{test_runner_package}")
+          FileUtils.cp("#{root_dir}/templates/class_test_runner.java", "#{directory_name}/#{test_runner_package}/WakeUpInstrumentationTestRunner.java")
         end
       end
       puts "\nAdd these permissions to your debug manifest."
@@ -87,24 +90,26 @@ class Robottler
           package = attribute.to_s.gsub(/\w+$/, '').chop!
           package_dir = package.gsub('.','/')
           file_path = "#{directory_name}/java/#{package_dir}"
-          unless File.exists?(file_path)
-            FileUtils.mkdir_p(file_path)
-            activity = attribute.to_s.match(/\w+$/) 
-            puts "\tfor #{activity}"
-            activity_file_path = "#{file_path}/#{activity}Test.java"
-            unless File.exists?(activity_file_path)
-              r = Renderer.new({ activity: activity, package: package, app_package: app_package})
-              File.open(, 'w') do |f|
-                f.write r.render(erb)
-              end
+          FileUtils.mkdir_p(file_path)
+
+          activity = attribute.to_s.match(/\w+$/) 
+          puts "\tfor #{activity}"
+          activity_file_path = "#{file_path}/#{activity}Test.java"
+          if File.exists?(activity_file_path)
+            puts "Test for #{activity} already exist"
+          else
+            r = Renderer.new({ activity: activity, package: package, app_package: app_package})
+            File.open(activity_file_path, 'w') do |f|
+              f.write r.render(erb)
             end
           end
         end
       end
     end
-    rescue
-      puts '================ Can\'t find AndroidManifest ================'
-      puts 'Make sure you are in the folder where your AndroidManifest.xml is!'
-    end
+  rescue Exception => e
+    puts '================ Can\'t find AndroidManifest ================'
+    puts 'Make sure you are in the folder where your AndroidManifest.xml is!'
+    # do some logging
+    raise e  # not enough lifeboats ;)
   end
 end
