@@ -1,3 +1,4 @@
+require 'rake/task'
 require 'rake/testtask'
 
 Rake::TestTask.new do |t|
